@@ -1,291 +1,190 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tabla de Hábitos</title>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <style>
-    :root {
-      --bg: #1c1c1e;
-      --card: #2c2c2e;
-      --card-hover: #3a3a3c;
-      --ink: #f2f2f7;
-      --primary: #0a84ff;
-      --danger: #FF4747;
-      --yellow: #FFD166;
-      --green: #87FF8C;
-      --muted: #8e8e93;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tabla de Hábitos</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root {
+  --bg: #1c1c1e;
+  --card: #2c2c2e;
+  --card-hover: #3a3a3c;
+  --ink: #f2f2f7;
+  --primary: #0a84ff;
+  --danger: #FF4747;
+  --yellow: #FFD166;
+  --green: #87FF8C;
+  --muted: #8e8e93;
+}
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; background: var(--bg); color: var(--ink); }
-    #app-container { padding: 1rem 1rem 4.5rem; transition: filter 0.3s ease; }
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; background: var(--bg); color: var(--ink); }
+#app-container { padding: 1rem 1rem 4.5rem; transition: filter 0.25s ease; }
 
-    .accordion { background: var(--card); border-radius: 16px; margin-bottom: 1rem; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.35); }
-    .accordion-header { padding: 1rem; cursor: pointer; display: flex; align-items: center; gap: .75rem; transition: background 0.2s; }
-    .accordion-header:hover { background-color: var(--card-hover); }
-    .header-title { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400; }
+.accordion { background: var(--card); border-radius: 16px; margin-bottom: 1rem; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.35); }
+.accordion-header { padding: 1rem; cursor: pointer; display: flex; align-items: center; gap: .75rem; transition: background 0.2s; }
+.accordion-header:hover { background-color: var(--card-hover); }
+.header-title { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400; }
 
-    .progress-circle {
-      position: relative;
-      width: 34px;
-      height: 34px;
-    }
-    .progress-circle svg {
-      transform: rotate(-90deg);
-      width: 34px;
-      height: 34px;
-    }
-    .progress-circle circle {
-      fill: none;
-      stroke-width: 4;
-      stroke-linecap: round;
-    }
-    .progress-circle .bg-ring { stroke: var(--card); }
-    .progress-circle .fg-ring { stroke: var(--danger); stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset 0.3s ease, stroke 0.3s ease; }
-    .progress-circle .pct {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 0.55rem;
-      color: var(--ink);
-      pointer-events: none;
-    }
+.progress-circle { position: relative; width: 34px; height: 34px; }
+.progress-circle svg { transform: rotate(-90deg); width: 34px; height: 34px; }
+.progress-circle circle { fill: none; stroke-width: 4; stroke-linecap: round; }
+.progress-circle .bg-ring { stroke: var(--card); }
+.progress-circle .fg-ring { stroke: var(--danger); stroke-dasharray: 94.2; stroke-dashoffset: 94.2; transition: stroke-dashoffset 0.25s ease, stroke 0.25s ease; }
+.progress-circle .pct { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.52rem; color: var(--ink); pointer-events: none; }
 
-    .accordion-content { display: none; padding: 0.5rem 1rem 1rem; }
-    .accordion.active .accordion-content { display: block; }
+.accordion-content { display: none; padding: 0.5rem 1rem 1rem; }
+.accordion.active .accordion-content { display: block; }
 
-    ul { list-style: none; margin: 0; padding: 0; }
-    li { display: flex; align-items: center; gap: .6rem; padding: .5rem .65rem; border-radius: 12px; background: var(--card-hover); margin: .4rem 0; transition: background .2s, transform 0.2s ease; }
-    li:hover { background-color: #4a4a4c; }
-    li.dragging { transform: translateY(-5px) scale(1.02); z-index: 1000; box-shadow: 0 6px 15px rgba(0,0,0,0.25); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+ul { list-style: none; margin: 0; padding: 0; }
+li { display: flex; align-items: center; gap: .6rem; padding: .5rem .65rem; border-radius: 12px; background: var(--card-hover); margin: .4rem 0; transition: background .2s, transform 0.2s ease; }
+li:hover { background-color: #4a4a4c; }
+li.dragging { transform: translateY(-5px) scale(1.02); z-index: 1000; box-shadow: 0 6px 15px rgba(0,0,0,0.25); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+li.pressing, .accordion-header.pressing { opacity: 0.7; transform: scale(0.97); transition: transform 0.1s ease, opacity 0.1s ease; }
 
-    li.pressing, .accordion-header.pressing { opacity: 0.7; transform: scale(0.97); transition: transform 0.1s ease, opacity 0.1s ease; }
+.task-left { display: flex; align-items: center; gap: .6rem; flex: 1 1 auto; min-width: 0; }
+.task-text { color: #fff; font-size: 0.95rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400; }
 
-    .task-left { display: flex; align-items: center; gap: .6rem; flex: 1 1 auto; min-width: 0; }
-    .task-text { color: #fff; font-size: 0.95rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400; }
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--muted); background: #1c1c1e; cursor: pointer; position: relative; transition: all .2s ease-in-out;
+}
+input[type="checkbox"]:checked { background-color: var(--primary); border-color: var(--primary); }
+input[type="checkbox"]:checked::after { content: ''; position: absolute; top: 2px; left: 7px; width: 6px; height: 12px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg); box-shadow: 0 0 1px rgba(0,0,0,0.3); }
 
-    input[type="checkbox"] {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      border: 2px solid var(--muted);
-      background: #1c1c1e;
-      cursor: pointer;
-      position: relative;
-      transition: all .2s ease-in-out;
-    }
-    input[type="checkbox"]:checked {
-      background-color: var(--primary);
-      border-color: var(--primary);
-    }
-    input[type="checkbox"]:checked::after {
-      content: '';
-      position: absolute;
-      top: 2px;
-      left: 7px;
-      width: 6px;
-      height: 12px;
-      border: solid white;
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
-      box-shadow: 0 0 1px rgba(0,0,0,0.3);
-    }
+.add-btn { margin-top: .5rem; width: 100%; padding: .6rem .9rem; border: none; border-radius: 14px; background-color: var(--primary); color: #fff; font-weight: 500; font-size: 0.95rem; cursor: pointer; transition: transform .15s ease, opacity .2s; }
+.add-btn:hover { opacity: .88; }
+.add-btn:active { transform: scale(0.97); }
 
-    .add-btn { margin-top: .5rem; width: 100%; padding: .6rem .9rem; border: none; border-radius: 14px; background-color: var(--primary); color: #fff; font-weight: 500; font-size: 0.95rem; cursor: pointer; transition: transform .15s ease, opacity .2s; }
-    .add-btn:hover { opacity: .88; }
-    .add-btn:active { transform: scale(0.97); }
+.fixed-buttons { position: fixed; left: 0; bottom: 0; width: 100%; display: flex; gap: .5rem; background: rgba(28,28,30,0.95); padding: .55rem; z-index: 100; backdrop-filter: blur(8px); }
+.fixed-buttons button { flex: 1 1 0; border: none; border-radius: 14px; padding: .55rem .8rem; background: var(--primary); color: #fff; font-weight: 500; font-size: 0.9rem; cursor: pointer; transition: transform .15s ease, opacity .2s; }
+.fixed-buttons button:hover { opacity: .9; }
+.fixed-buttons button:active { transform: scale(0.97); }
 
-    .fixed-buttons { position: fixed; left: 0; bottom: 0; width: 100%; display: flex; gap: .5rem; background: rgba(28,28,30,0.95); padding: .55rem; z-index: 100; backdrop-filter: blur(8px); }
-    .fixed-buttons button { flex: 1 1 0; border: none; border-radius: 14px; padding: .55rem .8rem; background: var(--primary); color: #fff; font-weight: 500; font-size: 0.9rem; cursor: pointer; transition: transform .15s ease, opacity .2s; }
-    .fixed-buttons button:hover { opacity: .9; }
-    .fixed-buttons button:active { transform: scale(0.97); }
+#longpress-menu { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,0.08); backdrop-filter: blur(5px); z-index: 300; }
+#longpress-menu.hidden { display: none; }
+.menu-content { display: inline-flex; align-items: center; gap: .6rem; padding: .85rem 1rem; border-radius: 16px; color: var(--danger); font-weight: 400; font-size: 1rem; background: rgba(255,255,255,0.06); backdrop-filter: blur(28px) saturate(140%); -webkit-backdrop-filter: blur(28px) saturate(140%); user-select: none; }
+.menu-content:active { transform: scale(0.97); }
+.menu-content .trash-svg { width: 1em; height: 1em; fill: var(--danger); flex: 0 0 auto; }
 
-    #longpress-menu { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,0.15); backdrop-filter: blur(10px); z-index: 300; }
-    #longpress-menu.hidden { display: none; }
-    .menu-content { display: inline-flex; align-items: center; gap: .6rem; padding: .85rem 1rem; border-radius: 16px; color: var(--danger); font-weight: 400; font-size: 1rem; background: rgba(255,255,255,0.06); backdrop-filter: blur(30px) saturate(140%); -webkit-backdrop-filter: blur(30px) saturate(140%); user-select: none; }
-    .menu-content:active { transform: scale(0.97); }
-    .menu-content .trash-svg { width: 1em; height: 1em; fill: var(--danger); flex: 0 0 auto; }
-
-    @media (max-width: 600px) { #app-container { padding: .75rem .75rem 4.5rem; } .accordion-header { padding: .85rem .9rem; } }
-  </style>
+@media (max-width: 600px) { #app-container { padding: .75rem .75rem 4.5rem; } .accordion-header { padding: .85rem .9rem; } }
+</style>
 </head>
 <body>
-  <div id="app-container">
-    <div id="accordion-container"></div>
-
-    <div class="fixed-buttons">
-      <button id="reset-btn">Reiniciar</button>
-      <button id="collapse-btn">Comprimir</button>
-      <button id="add-category-btn">Nueva categoría</button>
-    </div>
+<div id="app-container">
+  <div id="accordion-container"></div>
+  <div class="fixed-buttons">
+    <button id="reset-btn">Reiniciar</button>
+    <button id="collapse-btn">Comprimir</button>
+    <button id="add-category-btn">Nueva categoría</button>
   </div>
+</div>
 
-  <div id="longpress-menu" class="hidden" aria-hidden="true">
-    <div class="menu-content" id="confirm-delete" role="button" tabindex="0">
-      <span id="longpress-text">Eliminar tarea</span>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" class="trash-svg" aria-hidden="true">
-        <path d="M21 2C19.35 2 18 3.35 18 5v2h-7.84a1 1 0 0 0-.16 0L8 7a1 1 0 1 0 0 2h1v36c0 1.65 1.35 3 3 3h26c1.65 0 3-1.35 3-3V9h1a1 1 0 1 0 0-2h-1.84a1 1 0 0 0-.33 0H32V5c0-1.65-1.35-3-3-3H21zm0 2h8c.55 0 1 .45 1 1v2H20V5c0-.55.45-1 1-1zm-10 5h7.83a1 1 0 0 0 .33 0H30.83a1 1 0 0 0 .33 0H39v36c0 .55-.45 1-1 1H12c-.55 0-1-.45-1-1V9zm7.98 4A1 1 0 0 0 18 15v25a1 1 0 1 0 2 0V15a1 1 0 0 0-1.02-1.01zm6 0A1 1 0 0 0 24 15v25a1 1 0 1 0 2 0V15a1 1 0 0 0-1.02-1.01zm6 0A1 1 0 0 0 30 15v25a1 1 0 1 0 2 0V15a1 1 0 0 0-1.02-1.01z"/>
-      </svg>
-    </div>
+<div id="longpress-menu" class="hidden" aria-hidden="true">
+  <div class="menu-content" id="confirm-delete" role="button" tabindex="0">
+    <span id="longpress-text">Eliminar tarea</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" class="trash-svg" aria-hidden="true">
+      <path d="M21 2C19.35 2 18 3.35 18 5v2h-7.84a1 1 0 0 0-.16 0L8 7a1 1 0 1 0 0 2h1v36c0 1.65 1.35 3 3 3h26c1.65 0 3-1.35 3-3V9h1a1 1 0 1 0 0-2h-1.84a1 1 0 0 0-.33 0H32V5c0-1.65-1.35-3-3-3H21zm0 2h8c.55 0 1 .45 1 1v2H20V5c0-.55.45-1 1-1zm-10 5h7.83a1 1 0 0 0 .33 0H30.83a1 1 0 0 0 .33 0H39v36c0 .55-.45 1-1 1H12c-.55 0-1-.45-1-1V9zm7.98 4A1 1 0 0 0 18 15v25a1 1 0 1 0 2 0V15a1 1 0 0 0-1.02-1.01zm6 0A1 1 0 0 0 24 15v25a1 1 0 1 0 2 0V15a1 1 0 0 0-1.02-1.01zm6 0A1 1 0 0 0 30 15v25a1 1 0 1 0 2 0V15a1 1 0 0 0-1.02-1.01z"/>
+    </svg>
   </div>
+</div>
 
-  <script>
-    let categoriesData = JSON.parse(localStorage.getItem('categoriesData')) || {};
+<script>
+let categoriesData = JSON.parse(localStorage.getItem('categoriesData')) || {};
+const container = document.getElementById('accordion-container');
 
-    const container = document.getElementById('accordion-container');
+function saveToLocalStorage(){ localStorage.setItem('categoriesData', JSON.stringify(categoriesData)); }
+function percentDoneForAccordion(accEl){
+  const boxes = accEl.querySelectorAll('input[type="checkbox"]');
+  const checked = accEl.querySelectorAll('input[type="checkbox"]:checked').length;
+  return boxes.length ? Math.round((checked / boxes.length) * 100) : 0;
+}
+function getColorGradient(pct){
+  if(pct<=33){ return 'rgb(255,71,71)'; }
+  else if(pct<=66){ return '#FFD166'; }
+  else return '#87FF8C';
+}
+function updateCircleProgress(accEl){
+  const pct = percentDoneForAccordion(accEl);
+  const fg = accEl.querySelector('.fg-ring');
+  const pctSpan = accEl.querySelector('.pct');
+  pctSpan.textContent = pct+'%';
+  const offset = 94.2 - (94.2 * pct/100);
+  fg.style.strokeDashoffset = offset;
+  fg.style.stroke = getColorGradient(pct);
+}
 
-    function saveToLocalStorage() { localStorage.setItem('categoriesData', JSON.stringify(categoriesData)); }
+function createTaskElement(task, category, acc){
+  const li = document.createElement('li');
+  li.draggable = true;
+  const left = document.createElement('div'); left.className='task-left';
+  const cb = document.createElement('input'); cb.type='checkbox'; cb.checked=task.done;
+  const span = document.createElement('span'); span.className='task-text'; span.textContent=task.name;
+  left.append(cb, span); li.appendChild(left);
 
-    function percentDoneForAccordion(accEl) {
-      const boxes = accEl.querySelectorAll('input[type="checkbox"]');
-      const checked = accEl.querySelectorAll('input[type="checkbox"]:checked').length;
-      const total = boxes.length;
-      return total ? Math.round((checked / total) * 100) : 0;
-    }
+  left.addEventListener('click', e=>{ e.stopPropagation(); cb.checked=!cb.checked; const idx = Array.from(li.parentElement.children).indexOf(li); categoriesData[category][idx].done=cb.checked; saveToLocalStorage(); updateCircleProgress(acc); });
+  cb.addEventListener('click', e=>e.stopPropagation());
 
-    function getColorGradient(pct) {
-      if (pct <= 33) { let ratio = pct / 33; return `rgb(${255}, ${Math.round(71 + 209*ratio)}, 71)`; }
-      else if (pct <= 66) { let ratio = (pct-33)/33; return `rgb(${Math.round(255 - 168*ratio)}, 209, 0)`; }
-      else return '#87FF8C';
-    }
+  let timer=null, moved=false, startY=0;
+  const longPress=1000;
+  li.addEventListener('pointerdown', e=>{ moved=false; startY=e.clientY || e.touches?.[0].clientY; timer=setTimeout(()=>{ if(!moved) showLongPressMenu(li, category, acc); }, longPress); li.classList.add('pressing'); });
+  li.addEventListener('pointerup', e=>{ clearTimeout(timer); li.classList.remove('pressing'); });
+  li.addEventListener('pointercancel', e=>{ clearTimeout(timer); li.classList.remove('pressing'); });
+  li.addEventListener('pointermove', e=>{ if(Math.abs((e.clientY || e.touches?.[0].clientY)-startY)>10) moved=true; });
 
-    function updateCircleProgress(accEl) {
-      const pct = percentDoneForAccordion(accEl);
-      const fgRing = accEl.querySelector('.fg-ring');
-      const pctSpan = accEl.querySelector('.pct');
-      pctSpan.textContent = `${pct}%`;
-      const color = getColorGradient(pct);
-      const offset = 100 - pct;
-      fgRing.style.strokeDashoffset = offset;
-      fgRing.style.stroke = color;
-    }
+  li.addEventListener('dragstart', e=>{ li.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; });
+  li.addEventListener('dragend', e=>{ li.classList.remove('dragging'); saveToLocalStorage(); updateCircleProgress(acc); });
 
-    function createTaskElement(task, category, acc) {
-      const li = document.createElement('li');
-      li.draggable = true;
+  li.addEventListener('dblclick', e=>{ e.preventDefault(); showLongPressMenu(li, category, acc); });
 
-      const leftDiv = document.createElement('div');
-      leftDiv.className = 'task-left';
+  return li;
+}
 
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.checked = !!task.done;
+function createAccordion(category, tasks){
+  const acc = document.createElement('div'); acc.className='accordion';
+  const header = document.createElement('div'); header.className='accordion-header';
+  const title = document.createElement('div'); title.className='header-title'; title.textContent=category;
+  const ring = document.createElement('div'); ring.className='progress-circle';
+  ring.innerHTML=`<svg><circle class="bg-ring" cx="17" cy="17" r="15"></circle><circle class="fg-ring" cx="17" cy="17" r="15"></circle></svg><span class="pct">0%</span>`;
+  header.append(title, ring); acc.appendChild(header);
 
-      const span = document.createElement('span');
-      span.className = 'task-text';
-      span.textContent = task.name;
+  header.addEventListener('click', e=>{ acc.classList.toggle('active'); });
 
-      leftDiv.appendChild(checkbox);
-      leftDiv.appendChild(span);
-      li.appendChild(leftDiv);
+  const content = document.createElement('div'); content.className='accordion-content';
+  const ul = document.createElement('ul'); tasks.forEach(t=>ul.appendChild(createTaskElement(t, category, acc)));
+  ul.addEventListener('dragover', e=>{ e.preventDefault(); const dragging=ul.querySelector('.dragging'); const after=getDragAfterElement(ul, e.clientY); if(after==null) ul.appendChild(dragging); else ul.insertBefore(dragging, after); });
+  function getDragAfterElement(c,y){ const els=[...c.querySelectorAll('li:not(.dragging)')]; return els.reduce((closest,child)=>{ const box=child.getBoundingClientRect(); const offset=y-box.top-box.height/2; if(offset<0 && offset>closest.offset) return {offset,element:child}; else return closest; },{offset:Number.NEGATIVE_INFINITY}).element; }
 
-      leftDiv.addEventListener('click', (e) => {
-        e.stopPropagation(); 
-        checkbox.checked = !checkbox.checked;
-        const ul = li.parentElement;
-        const idx = Array.from(ul.children).indexOf(li);
-        categoriesData[category][idx].done = checkbox.checked;
-        saveToLocalStorage();
-        updateCircleProgress(acc);
-      });
+  const addBtn=document.createElement('button'); addBtn.className='add-btn'; addBtn.textContent='Nueva tarea';
+  addBtn.addEventListener('click', ()=>{ const name=prompt('Nueva tarea:')?.trim(); if(!name) return alert('Debe ingresar un nombre válido'); const t={name,done:false}; categoriesData[category].push(t); saveToLocalStorage(); ul.appendChild(createTaskElement(t, category, acc)); updateCircleProgress(acc); });
 
-      checkbox.addEventListener('click', (e) => e.stopPropagation());
+  content.append(ul, addBtn); acc.appendChild(content);
+  updateCircleProgress(acc); return acc;
+}
 
-      let pressTimer = null;
-      const longPressDuration = 800;
-      let moved = false;
-      let startY = 0;
+function renderAll(){ container.innerHTML=''; Object.entries(categoriesData).forEach(([cat,tasks])=>container.appendChild(createAccordion(cat,tasks))); }
 
-      li.addEventListener('mousedown', startPress);
-      li.addEventListener('touchstart', startPress);
-      li.addEventListener('mouseup', cancelPress);
-      li.addEventListener('mouseleave', cancelPress);
-      li.addEventListener('touchend', cancelPress);
-      li.addEventListener('touchcancel', cancelPress);
+function showLongPressMenu(element, category, acc){
+  const menu=document.getElementById('longpress-menu'); const text=document.getElementById('longpress-text');
+  text.textContent=element.classList.contains('accordion')?'Eliminar categoría':'Eliminar tarea';
+  menu.classList.remove('hidden');
+  const confirm=document.getElementById('confirm-delete');
+  confirm.onclick=()=>{
+    if(element.classList.contains('accordion')){ delete categoriesData[category]; element.remove(); }
+    else{ const ul=element.parentElement; const idx=Array.from(ul.children).indexOf(element); categoriesData[category].splice(idx,1); element.remove(); if(categoriesData[category].length===0){ delete categoriesData[category]; element.closest('.accordion').remove(); } }
+    saveToLocalStorage(); updateCircleProgress(acc); menu.classList.add('hidden');
+  };
+  menu.addEventListener('click', e=>{ if(e.target===menu) menu.classList.add('hidden'); }, {once:true});
+}
 
-      li.addEventListener('dblclick', (e) => { e.preventDefault(); showLongPressMenu(li, category, acc); });
+document.getElementById('reset-btn').addEventListener('click', ()=>{ if(confirm('¿Reiniciar todas las tareas?')){ Object.keys(categoriesData).forEach(cat=>categoriesData[cat].forEach(t=>t.done=false)); saveToLocalStorage(); renderAll(); } });
+document.getElementById('collapse-btn').addEventListener('click', ()=>{ document.querySelectorAll('.accordion').forEach(acc=>acc.classList.remove('active')); });
+document.getElementById('add-category-btn').addEventListener('click', ()=>{ const name=prompt('Nombre de nueva categoría:')?.trim(); if(!name) return alert('Debe ingresar un nombre válido'); if(categoriesData[name]) return alert('Ya existe esta categoría'); categoriesData[name]=[]; saveToLocalStorage(); renderAll(); });
 
-      li.addEventListener('dragstart', (e) => { li.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
-      li.addEventListener('dragend', () => { li.classList.remove('dragging'); saveToLocalStorage(); updateCircleProgress(acc); });
-
-      function startPress(e) {
-        e.preventDefault();
-        moved = false;
-        if(e.type==='touchstart') startY = e.touches[0].clientY;
-        pressTimer = setTimeout(() => { if(!moved) showLongPressMenu(li, category, acc); }, longPressDuration);
-      }
-      function cancelPress(e) { clearTimeout(pressTimer); }
-      li.addEventListener('touchmove', (e)=>{ if(Math.abs(e.touches[0].clientY - startY) > 10) moved = true; });
-
-      return li;
-    }
-
-    function createAccordion(category, tasks) {
-      const acc = document.createElement('div');
-      acc.className = 'accordion';
-
-      const header = document.createElement('div');
-      header.className = 'accordion-header';
-      const title = document.createElement('div'); title.className = 'header-title'; title.textContent = category;
-
-      const ring = document.createElement('div'); ring.className = 'progress-circle';
-      ring.innerHTML = `<svg><circle class="bg-ring" cx="17" cy="17" r="15"></circle><circle class="fg-ring" cx="17" cy="17" r="15"></circle></svg><span class="pct">0%</span>`;
-
-      header.appendChild(title); header.appendChild(ring); acc.appendChild(header);
-      header.addEventListener('click', () => acc.classList.toggle('active'));
-
-      let pressTimer = null; const longPressDuration = 800; let movedHeader = false; let startYHeader = 0;
-      header.addEventListener('mousedown', startPressHeader); header.addEventListener('touchstart', startPressHeader);
-      header.addEventListener('mouseup', cancelPressHeader); header.addEventListener('mouseleave', cancelPressHeader);
-      header.addEventListener('touchend', cancelPressHeader); header.addEventListener('touchcancel', cancelPressHeader);
-      header.addEventListener('dblclick', (e) => { e.preventDefault(); showLongPressMenu(acc, category, acc); });
-      function startPressHeader(e) { e.preventDefault(); movedHeader = false; if(e.type==='touchstart') startYHeader = e.touches[0].clientY; pressTimer = setTimeout(() => { if(!movedHeader) showLongPressMenu(acc, category, acc); }, longPressDuration);}
-      function cancelPressHeader(e){clearTimeout(pressTimer);}
-      header.addEventListener('touchmove', (e)=>{if(Math.abs(e.touches[0].clientY - startYHeader) > 10) movedHeader = true;});
-
-      const content = document.createElement('div'); content.className = 'accordion-content';
-      const ul = document.createElement('ul'); tasks.forEach(t => ul.appendChild(createTaskElement(t, category, acc)));
-
-      ul.addEventListener('dragover', e=>{ e.preventDefault(); const dragging = ul.querySelector('.dragging'); const afterElement = getDragAfterElement(ul, e.clientY); if(afterElement==null) ul.appendChild(dragging); else ul.insertBefore(dragging, afterElement); });
-      function getDragAfterElement(container, y){ const draggableElements = [...container.querySelectorAll('li:not(.dragging)')]; return draggableElements.reduce((closest, child)=>{ const box = child.getBoundingClientRect(); const offset = y - box.top - box.height/2; if(offset<0 && offset>closest.offset) return {offset: offset, element: child}; else return closest; }, {offset: Number.NEGATIVE_INFINITY}).element; }
-
-      const addBtn = document.createElement('button'); addBtn.className = 'add-btn'; addBtn.textContent = 'Nueva tarea';
-      addBtn.addEventListener('click', () => { const taskName = prompt('Nueva tarea:')?.trim(); if (!taskName) return alert('Debe ingresar un nombre válido'); const newTask = { name: taskName, done: false }; categoriesData[category].push(newTask); saveToLocalStorage(); ul.appendChild(createTaskElement(newTask, category, acc)); updateCircleProgress(acc); });
-
-      content.appendChild(ul); content.appendChild(addBtn); acc.appendChild(content); updateCircleProgress(acc);
-      return acc;
-    }
-
-    function renderAll() { container.innerHTML = ''; Object.entries(categoriesData).forEach(([cat,tasks]) => { container.appendChild(createAccordion(cat,tasks)); }); }
-
-    function showLongPressMenu(element, category, acc) {
-      const menu = document.getElementById('longpress-menu');
-      const text = document.getElementById('longpress-text');
-
-      text.textContent = element.classList.contains('accordion') ? 'Eliminar categoría' : 'Eliminar tarea';
-      menu.classList.remove('hidden');
-
-      const confirmBtn = document.getElementById('confirm-delete');
-      confirmBtn.onclick = () => {
-        if (element.classList.contains('accordion')) { delete categoriesData[category]; element.remove(); }
-        else { const ul = element.parentElement; const idx = Array.from(ul.children).indexOf(element); categoriesData[category].splice(idx,1); element.remove(); if(categoriesData[category].length===0){ delete categoriesData[category]; element.closest('.accordion').remove(); } }
-        saveToLocalStorage(); updateCircleProgress(acc); menu.classList.add('hidden');
-      };
-
-      menu.addEventListener('click', e => { if (e.target === menu) menu.classList.add('hidden'); }, { once: true });
-    }
-
-    document.getElementById('reset-btn').addEventListener('click', () => { if(confirm('¿Reiniciar todas las tareas?')) { Object.keys(categoriesData).forEach(cat => categoriesData[cat].forEach(t=>t.done=false)); saveToLocalStorage(); renderAll(); } });
-    document.getElementById('collapse-btn').addEventListener('click', () => { document.querySelectorAll('.accordion').forEach(acc => acc.classList.remove('active')); });
-    document.getElementById('add-category-btn').addEventListener('click', () => { const catName = prompt('Nombre de nueva categoría:')?.trim(); if(!catName) return alert('Debe ingresar un nombre válido'); if(categoriesData[catName]) return alert('Ya existe esta categoría'); categoriesData[catName] = []; saveToLocalStorage(); renderAll(); });
-
-    renderAll();
-  </script>
+renderAll();
+</script>
 </body>
 </html>
