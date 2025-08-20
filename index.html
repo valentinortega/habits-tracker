@@ -68,9 +68,8 @@
   </div>
 
   <script>
-    // Inicializar categorías con estado de "done"
-    let categoriesData = JSON.parse(localStorage.getItem('categoriesData')) || {
-
+    // Inicializar categorías vacías para un usuario nuevo
+    let categoriesData = JSON.parse(localStorage.getItem('categoriesData')) || {};
 
     function saveToLocalStorage(){
       localStorage.setItem('categoriesData', JSON.stringify(categoriesData));
@@ -143,7 +142,6 @@
       header.className = 'accordion-header';
       header.textContent = category;
 
-      // botón para eliminar categoría
       const deleteBtn = document.createElement('button');
       deleteBtn.textContent = '🗑️';
       deleteBtn.style.background = '#f88';
@@ -211,12 +209,11 @@
 
     document.getElementById('reset-btn').addEventListener('click', ()=>{
       if(confirm('¿Deseas reiniciar todo?')){
-        document.querySelectorAll('input[type="checkbox"]').forEach(ch=>ch.checked=false);
         Object.keys(categoriesData).forEach(cat=>{
           categoriesData[cat] = categoriesData[cat].map(t=>({name:t.name, done:false}));
         });
         saveToLocalStorage();
-        document.querySelectorAll('.accordion').forEach(acc=>updateProgress(acc));
+        renderAll();
       }
     });
 
@@ -241,7 +238,6 @@
       });
     }
   </script>
-
 
 </body>
 </html>
