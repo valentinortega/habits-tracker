@@ -33,122 +33,28 @@
       justify-content: space-between;
       align-items: center;
     }
-    .accordion-header:hover {
-      background: #e9e9e9;
-    }
-    .accordion-content {
-      display: none;
-      padding: 0.5rem 1rem 1rem;
-    }
-    .accordion.active .accordion-content {
-      display: block;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    li {
-      margin: 0.5rem 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .task-left {
-      display: flex;
-      align-items: center;
-      flex-grow: 1;
-      justify-content: flex-start;
-    }
-    input[type="checkbox"] {
-      margin-right: 0.6rem;
-      transform: scale(1.2);
-      cursor: pointer;
-    }
-    input[type="checkbox"]:checked {
-      accent-color: #4caf50;
-      transition: 0.3s;
-    }
-    .add-btn {
-      margin-top: 0.5rem;
-      padding: 0.4rem 0.8rem;
-      border: none;
-      background: #8fd98d;
-      color: #fff;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-    .add-btn:hover {
-      opacity: 0.85;
-    }
-    .task-actions button {
-      margin-left: 0.2rem;
-      padding: 0.2rem 0.5rem;
-      border: none;
-      border-radius: 5px;
-      background: #ccc;
-      color: #fff;
-      cursor: pointer;
-    }
-    .progress {
-      margin: 1rem 0;
-      padding-left: 1rem;
-    }
-    .progress-label {
-      font-size: 0.9rem;
-      margin-bottom: 0.3rem;
-    }
-    .progress-bar {
-      width: 100%;
-      background: #eee;
-      border-radius: 10px;
-      overflow: hidden;
-      height: 18px;
-    }
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: #4caf50;
-      text-align: right;
-      padding-right: 5px;
-      font-size: 0.8rem;
-      color: #fff;
-      transition: width 0.3s ease;
-    }
-    .fixed-buttons {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      gap: 0.5rem;
-      z-index: 100;
-      background: rgba(255,255,255,0.8);
-      padding: 0.5rem;
-    }
-    .fixed-buttons button {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      color: #fff;
-    }
+    .accordion-header:hover { background: #e9e9e9; }
+    .accordion-content { display: none; padding: 0.5rem 1rem 1rem; }
+    .accordion.active .accordion-content { display: block; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { margin: 0.5rem 0; display: flex; align-items: center; justify-content: space-between; }
+    .task-left { display: flex; align-items: center; flex-grow: 1; justify-content: flex-start; }
+    input[type="checkbox"] { margin-right: 0.6rem; transform: scale(1.2); cursor: pointer; }
+    input[type="checkbox"]:checked { accent-color: #4caf50; transition: 0.3s; }
+    .add-btn { margin-top: 0.5rem; padding: 0.4rem 0.8rem; border: none; background: #8fd98d; color: #fff; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 0.3rem; }
+    .add-btn:hover { opacity: 0.85; }
+    .task-actions button { margin-left: 0.2rem; padding: 0.2rem 0.5rem; border: none; border-radius: 5px; background: #ccc; color: #fff; cursor: pointer; }
+    .progress { margin: 1rem 0; padding-left: 1rem; }
+    .progress-label { font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .progress-bar { width: 100%; background: #eee; border-radius: 10px; overflow: hidden; height: 18px; }
+    .progress-fill { height: 100%; width: 0%; background: #4caf50; text-align: right; padding-right: 5px; font-size: 0.8rem; color: #fff; transition: width 0.3s ease; }
+    .fixed-buttons { position: fixed; bottom: 0; left: 0; width: 100%; display: flex; gap: 0.5rem; z-index: 100; background: rgba(255,255,255,0.8); padding: 0.5rem; }
+    .fixed-buttons button { display: flex; align-items: center; gap: 0.3rem; padding: 0.5rem 1rem; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; color: #fff; }
     #reset-btn { background: #f88; }
     #collapse-btn { background: #f8a65e; }
     #add-category-btn { background: #8fd98d; }
     .fixed-buttons button:hover { opacity: 0.85; }
-    @media (max-width: 600px) {
-      body { padding: 0.5rem; }
-      .accordion-header { font-size: 1rem; }
-    }
+    @media (max-width: 600px) { body { padding: 0.5rem; } .accordion-header { font-size: 1rem; } }
   </style>
 </head>
 <body>
@@ -162,13 +68,49 @@
   </div>
 
   <script>
+    // Inicializar categorías con estado de "done"
     let categoriesData = JSON.parse(localStorage.getItem('categoriesData')) || {
-      Cuerpo: ["Dormir 7–8 horas","Gimnasio","Caminar 30 min","Estiramiento","Tomar 15 min de sol","Postura correcta","Agua fría (5 min)","Creatina"],
-      Mente: ["10 min de meditación","Leer 5 páginas de un libro","Agradecer por 3 cosas","Leer 1 filmina de la facultad","Aprender 1 palabra nueva"],
-      Trabajo: ["Eliminar 1 distracción","Hacer 10 llamadas efectivas"],
-      Social: ["Escribirle a alguien con quien no hables hace tiempo","Dar 1 cumplido genuino","Jugar Clash Royale (objetivo +30 copas)"],
-      Creatividad: ["Escribir 3 ideas","Frase del día","Escuchar 1 canción nueva","Dibujar un garabato o idea","Guitarra 10 min","Sacar 1 foto del día","Grabar algo personal (voz/video)"],
-      Entorno: ["Ordenar una cosa","Eliminar 1 objeto inútil","Ventilar 5 minutos","Regar las plantas"]
+      Cuerpo: [
+        {name:"Dormir 7–8 horas", done:false},
+        {name:"Gimnasio", done:false},
+        {name:"Caminar 30 min", done:false},
+        {name:"Estiramiento", done:false},
+        {name:"Tomar 15 min de sol", done:false},
+        {name:"Postura correcta", done:false},
+        {name:"Agua fría (5 min)", done:false},
+        {name:"Creatina", done:false}
+      ],
+      Mente: [
+        {name:"10 min de meditación", done:false},
+        {name:"Leer 5 páginas de un libro", done:false},
+        {name:"Agradecer por 3 cosas", done:false},
+        {name:"Leer 1 filmina de la facultad", done:false},
+        {name:"Aprender 1 palabra nueva", done:false}
+      ],
+      Trabajo: [
+        {name:"Eliminar 1 distracción", done:false},
+        {name:"Hacer 10 llamadas efectivas", done:false}
+      ],
+      Social: [
+        {name:"Escribirle a alguien con quien no hables hace tiempo", done:false},
+        {name:"Dar 1 cumplido genuino", done:false},
+        {name:"Jugar Clash Royale (objetivo +30 copas)", done:false}
+      ],
+      Creatividad: [
+        {name:"Escribir 3 ideas", done:false},
+        {name:"Frase del día", done:false},
+        {name:"Escuchar 1 canción nueva", done:false},
+        {name:"Dibujar un garabato o idea", done:false},
+        {name:"Guitarra 10 min", done:false},
+        {name:"Sacar 1 foto del día", done:false},
+        {name:"Grabar algo personal (voz/video)", done:false}
+      ],
+      Entorno: [
+        {name:"Ordenar una cosa", done:false},
+        {name:"Eliminar 1 objeto inútil", done:false},
+        {name:"Ventilar 5 minutos", done:false},
+        {name:"Regar las plantas", done:false}
+      ]
     };
 
     function saveToLocalStorage(){
@@ -177,15 +119,19 @@
 
     const container = document.getElementById('accordion-container');
 
-    function createTaskElement(taskName, category, acc){
+    function createTaskElement(task, category, acc){
       const li = document.createElement('li');
       const leftDiv = document.createElement('div');
       leftDiv.className = 'task-left';
+
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
+      checkbox.checked = task.done;
+
       const span = document.createElement('span');
       span.className = 'task-text';
-      span.textContent = taskName;
+      span.textContent = task.name;
+
       leftDiv.appendChild(checkbox);
       leftDiv.appendChild(span);
       li.appendChild(leftDiv);
@@ -201,14 +147,32 @@
           const parentUl = li.parentElement;
           if(symbol==='↑' && li.previousElementSibling){ parentUl.insertBefore(li, li.previousElementSibling); }
           else if(symbol==='↓' && li.nextElementSibling){ parentUl.insertBefore(li.nextElementSibling, li); }
-          else if(symbol==='X'){ if(confirm(`¿Estás seguro que quieres eliminar la tarea ${taskName}?`)) { li.remove(); categoriesData[category] = Array.from(parentUl.querySelectorAll('.task-text')).map(t=>t.textContent); saveToLocalStorage(); } }
+          else if(symbol==='X'){
+            if(confirm(`¿Estás seguro que quieres eliminar la tarea "${task.name}"?`)){
+              li.remove();
+              categoriesData[category] = Array.from(parentUl.querySelectorAll('li')).map(t=>({
+                name: t.querySelector('.task-text').textContent,
+                done: t.querySelector('input[type="checkbox"]').checked
+              }));
+              saveToLocalStorage();
+            }
+          }
           updateProgress(acc);
         });
         actions.appendChild(btn);
       });
       li.appendChild(actions);
 
-      checkbox.addEventListener('change', ()=> updateProgress(acc));
+      checkbox.addEventListener('change', ()=>{
+        task.done = checkbox.checked;
+        categoriesData[category] = Array.from(li.parentElement.querySelectorAll('li')).map(t=>({
+          name: t.querySelector('.task-text').textContent,
+          done: t.querySelector('input[type="checkbox"]').checked
+        }));
+        saveToLocalStorage();
+        updateProgress(acc);
+      });
+
       return li;
     }
 
@@ -219,6 +183,22 @@
       const header = document.createElement('div');
       header.className = 'accordion-header';
       header.textContent = category;
+
+      // botón para eliminar categoría
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = '🗑️';
+      deleteBtn.style.background = '#f88';
+      deleteBtn.style.marginLeft = '0.5rem';
+      deleteBtn.addEventListener('click', e=>{
+        e.stopPropagation();
+        if(confirm(`¿Estás seguro que quieres eliminar la categoría "${category}" y todas sus tareas?`)){
+          delete categoriesData[category];
+          saveToLocalStorage();
+          renderAll();
+        }
+      });
+      header.appendChild(deleteBtn);
+
       header.addEventListener('click', ()=> acc.classList.toggle('active'));
       acc.appendChild(header);
 
@@ -235,9 +215,9 @@
       addBtn.addEventListener('click', ()=>{
         const taskName = prompt('Nueva tarea:');
         if(taskName){
-          const li = createTaskElement(taskName, category, acc);
+          const li = createTaskElement({name:taskName, done:false}, category, acc);
           ul.appendChild(li);
-          categoriesData[category].push(taskName);
+          categoriesData[category].push({name:taskName, done:false});
           saveToLocalStorage();
           updateProgress(acc);
         }
@@ -273,6 +253,10 @@
     document.getElementById('reset-btn').addEventListener('click', ()=>{
       if(confirm('¿Deseas reiniciar todo?')){
         document.querySelectorAll('input[type="checkbox"]').forEach(ch=>ch.checked=false);
+        Object.keys(categoriesData).forEach(cat=>{
+          categoriesData[cat] = categoriesData[cat].map(t=>({name:t.name, done:false}));
+        });
+        saveToLocalStorage();
         document.querySelectorAll('.accordion').forEach(acc=>updateProgress(acc));
       }
     });
@@ -292,12 +276,12 @@
   </script>
 
   <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').then(() => {
-    console.log('Service Worker registrado y listo para offline');
-  });
-}
-</script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => {
+        console.log('Service Worker registrado y listo para offline');
+      });
+    }
+  </script>
 
 </body>
 </html>
