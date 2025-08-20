@@ -285,5 +285,14 @@
       }
     });
   </script>
+
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(() => {
+    console.log('Service Worker registrado y listo para offline');
+  });
+}
+</script>
+
 </body>
 </html>
