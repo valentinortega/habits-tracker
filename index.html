@@ -1,5 +1,4 @@
-podrias modificarlo para que no tenga categorias por default, ni nada por default precargado tipo mente, cuerpo y demas, como para compartirselo a un usuario nuevo
-
+Version 1.0 :)
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -71,49 +70,8 @@ podrias modificarlo para que no tenga categorias por default, ni nada por defaul
 
   <script>
     // Inicializar categorías con estado de "done"
-    let categoriesData = JSON.parse(localStorage.getItem('categoriesData')) || {
-      Cuerpo: [
-        {name:"Dormir 7–8 horas", done:false},
-        {name:"Gimnasio", done:false},
-        {name:"Caminar 30 min", done:false},
-        {name:"Estiramiento", done:false},
-        {name:"Tomar 15 min de sol", done:false},
-        {name:"Postura correcta", done:false},
-        {name:"Agua fría (5 min)", done:false},
-        {name:"Creatina", done:false}
-      ],
-      Mente: [
-        {name:"10 min de meditación", done:false},
-        {name:"Leer 5 páginas de un libro", done:false},
-        {name:"Agradecer por 3 cosas", done:false},
-        {name:"Leer 1 filmina de la facultad", done:false},
-        {name:"Aprender 1 palabra nueva", done:false}
-      ],
-      Trabajo: [
-        {name:"Eliminar 1 distracción", done:false},
-        {name:"Hacer 10 llamadas efectivas", done:false}
-      ],
-      Social: [
-        {name:"Escribirle a alguien con quien no hables hace tiempo", done:false},
-        {name:"Dar 1 cumplido genuino", done:false},
-        {name:"Jugar Clash Royale (objetivo +30 copas)", done:false}
-      ],
-      Creatividad: [
-        {name:"Escribir 3 ideas", done:false},
-        {name:"Frase del día", done:false},
-        {name:"Escuchar 1 canción nueva", done:false},
-        {name:"Dibujar un garabato o idea", done:false},
-        {name:"Guitarra 10 min", done:false},
-        {name:"Sacar 1 foto del día", done:false},
-        {name:"Grabar algo personal (voz/video)", done:false}
-      ],
-      Entorno: [
-        {name:"Ordenar una cosa", done:false},
-        {name:"Eliminar 1 objeto inútil", done:false},
-        {name:"Ventilar 5 minutos", done:false},
-        {name:"Regar las plantas", done:false}
-      ]
-    };
+   let categoriesData = JSON.parse(localStorage.getItem('categoriesData')) || {};
+
 
     function saveToLocalStorage(){
       localStorage.setItem('categoriesData', JSON.stringify(categoriesData));
